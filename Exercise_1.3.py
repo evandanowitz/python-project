@@ -48,3 +48,10 @@ for recipe in recipes_list:
   for ingredient in recipe['ingredients']:
     print('- ' + ingredient) # Prints each ingredient on its own line with a dash
   print('Difficulty:', recipe['difficulty'])
+
+# Display all unique ingredients in alphabetical order
+all_unique_ingredients = sorted(ingredients_list)
+print('\nIngredients Available Across All Recipes')
+print('-----------------------------------------')
+for ingredient in all_unique_ingredients:
+  print(ingredient)
