@@ -65,6 +65,13 @@ This project primarily focuses on implementing Python fundamentals, data structu
 - Create your first script on a `.py` script file
 - Build a script that uses `if-elif-else` statements, `for` loops, and functions to take recipes from the user, then display them
 #### What Did I Do?
+- Created a script called `Exercise_1.3.py` and initialized two empty lsits called `recipes_list` and `ingredients_list`
+- Defined a function called `take_recipe()`, which takes inputs from users for the following variables: `name` (str), `cooking_time` (int), `ingredients` (list), and `recipe` (dictionary storing the above variables)
+- Created variable `n` that stores the user response when asked how many recipes they want to enter
+- Created a **for loop** to run `take_recipe()` function and store its ooutput in a variable called `recipe`
+- Created another **for loop** to iterate over all ingredients, and if not present in ingredients_list already, will `append` the new ingredient to it. Once ingredients are added, it will be appended `recipe` to `recipes_list`
+- Created a **for loop** to iterate through `recipes_list` pick out each `recipe`, and determine the **difficulty** for each one via the use of `if-elif-else` statements, **conditionals**, and **logic operators** such as `and`, `or`, and `not`.
+- Displayed each `recipe` in an organized way as well as sorted and displayed all ingredients in alphabetical order.
 ### Exercise 1.4: File Handling in Python
 - Create a Python script that takes recipes from the user and writes the data in a binary file
 - Create another script that reads the binary file and lists out the available ingredients. The user chooses an ingredient and the script displays all recipes which contain it
