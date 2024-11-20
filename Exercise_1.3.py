@@ -30,3 +30,21 @@ for recipe in range(n): # Iterates n times for each recipe
 # print("\nRecipes List:", recipes_list)
 # print("\nIngredients List:", ingredients_list)
 
+for recipe in recipes_list:
+  if recipe['cooking_time'] < 10 and len(recipe['ingredients']) < 4:
+    recipe['difficulty'] = 'Easy' # Adds a 'difficulty' key to each recipe
+  elif recipe['cooking_time'] < 10 and len(recipe['ingredients']) >= 4:
+    recipe['difficulty'] = 'Medium'
+  elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) < 4:
+    recipe['difficulty'] = 'Intermediate'
+  elif recipe['cooking_time'] >= 10 and len(recipe['ingredients']) >= 4:
+    recipe['difficulty'] = 'Hard'
+
+  print() # Adds a blank line before each recipe
+  print('Recipe:', recipe['name'])
+  print('Cooking Time (min): ' + str(recipe['cooking_time']) + ' minutes')
+  # print('List of Ingredients:', recipe['ingredients'])
+  print('Ingredients:')
+  for ingredient in recipe['ingredients']:
+    print('- ' + ingredient) # Prints each ingredient on its own line with a dash
+  print('Difficulty:', recipe['difficulty'])
