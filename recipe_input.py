@@ -53,3 +53,39 @@ def calc_difficulty(cooking_time, ingredients):
   else:
     return 'Hard'
 
+# Ask the user for a filename
+filename = input('Enter the name of the file you want to save your recipe to (<anything>.bin): ')
+
+# Initialize 'recipes_list' and 'all_ingredients' as empty lists
+recipes_list = []
+all_ingredients = []
+
+# try-except-else-finally block to handle file operations
+try:
+  # Attempt to open the file in binary read mode
+  with open(filename, 'rb') as file:
+    # Load the data from the file
+    data = pickle.load(file)
+    print('Data loaded successfully from the file.')
+
+except FileNotFoundError:
+  # Handle the case where the file does not exist
+  data = {
+    'recipes_list': [],
+    'all_ingredients': []
+  }
+  print('File not found. Initializing new dictionary.')
+
+except Exception as error:
+  # Handle other exceptions (e.g., corrupted file, permission error, etc.)
+  data = {
+    'recipes_list': [],
+    'all_ingredients': []
+  }
+  print(f'An error occurred: {error}. Initializing new dictionary.')
+
+finally:
+  # If no exceptions, extract values from the dictionary into two separate lists
+  recipes_list = data['recipes_list']
+  all_ingredients = data['all_ingredients']
+
