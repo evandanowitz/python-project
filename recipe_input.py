@@ -29,3 +29,13 @@ def take_recipe():
       # Add the ingredient to the list
       ingredients.append(ingredient)
   
+  # Create a dictionary to store all recipe details
+  recipe = {
+    'recipe_name': recipe_name, # Name of the recipe
+    'cooking_time': cooking_time, # Cooking time in minutes
+    'ingredients': ingredients, # List of ingredients
+    'difficulty': difficulty # Difficulty level
+  }
+  # Return the completed recipe dictionary
+  return recipe
+
