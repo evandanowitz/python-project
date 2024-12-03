@@ -116,3 +116,14 @@ data = {
   'recipes_list': recipes_list,
   'all_ingredients': all_ingredients
 } 
+
+# Write and save data to the binary file.
+# Open the file in binary write mode. 'filename' is the user-defined name of the file received earlier.
+with open(filename, 'wb') as file:
+  # Write the data dictionary to the binary file using pickle.
+  # Converts the 'data' dictionary into a binary format and writes it to the file.
+  # This saves the current state of the recipes_list and all_ingredients lists.
+  pickle.dump(data, file)
+  # Confirmation message for the user.
+  print(f'Data successfully written to "{filename}".')
+  # File is automatically closed when the block ends with 'with open(...)'
