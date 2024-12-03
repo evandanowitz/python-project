@@ -48,3 +48,26 @@ def search_ingredient(data):
     if not found:
       print('No recipes with that ingredient found.')
 
+# Prompts user to provide name of binary file where recipes are saved. Stores the name in filename variable.
+filename = input('Enter the name of the file containing your recipe data: ')
+try:
+  # Opens the file in binary read mode. File will close after the block, even if an error occurs.
+  with open(filename, 'rb') as file:
+    # Reads the binary data from the file and deserializes it into a Python object, which is stored in 'data' variable.
+    data = pickle.load(file)
+except FileNotFoundError:
+  # Inform user that file does not exist.
+  print('File not found. Initializing new data structure.')
+  # Set data to an empty dictionary so the program still has a valid data object to work with if file isn't found.
+  data = {
+    'recipes_list': [],
+    'all_ingredients': []
+  }
+  if not data['all_ingredients']:
+    print('No ingredients available. Please add recipes to the file first.')
+else: # else block ensures that search_ingredient() is only called if no exceptions occurred in the try block
+  # Inform user that file load was successful.
+  print('File loaded successfully.')
+  print('\nNow you can search for a recipe by selecting an ingredient from the list below.')
+  # Pass the 'data' dictionary to the search_ingredient() function.
+  search_ingredient(data)
