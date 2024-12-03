@@ -89,3 +89,30 @@ finally:
   recipes_list = data['recipes_list']
   all_ingredients = data['all_ingredients']
 
+# Ask the user how many recupes they'd like to enter and convert input to an integer
+num_recipes = int(input('Enter the number of recipes you want to input: '))
+# Loop for the number of recipes
+# Here, I am looping num_recipes times to call the take_recipe() function and append its output to recipes_list.
+# Don't need to reference the loop variable ('_') in this situation, which is why it can be an underscore or anything.
+# Essentially saying: "I don't care about the index; I just want to execute this block num_recipes times."
+for _ in range(num_recipes):
+  # Call the take_recipe() function and append the result to recipes_list
+  recipe = take_recipe()
+  recipes_list.append(recipe)
+  # Loop through the ingredients of the current recipe
+  for ingredient in recipe['ingredients']:
+    # Check if an ingredient in the current recipe is not already in the all_ingredients list
+    if ingredient not in all_ingredients:
+      # If an ingredient in current recipe is not already in all_ingredients list, add (append) it to it.
+      all_ingredients.append(ingredient)
+
+# Display the loaded or initialized lists
+print(f'Recipes in the list: {len(recipes_list)}')
+print(f'Ingredients available: {len(all_ingredients)}')
+
+# This 'data' dictionary stores two key-value pairs.
+# Pairing the keys 'recipes_list' and 'all_ingredients' with their respective list variables.
+data = {
+  'recipes_list': recipes_list,
+  'all_ingredients': all_ingredients
+} 
