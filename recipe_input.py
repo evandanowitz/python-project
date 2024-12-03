@@ -29,6 +29,9 @@ def take_recipe():
       # Add the ingredient to the list
       ingredients.append(ingredient)
   
+  # Calculate the difficulty of the recipe using the 'calc_difficulty' function
+  difficulty = calc_difficulty(cooking_time, ingredients)
+  
   # Create a dictionary to store all recipe details
   recipe = {
     'recipe_name': recipe_name, # Name of the recipe
@@ -38,4 +41,15 @@ def take_recipe():
   }
   # Return the completed recipe dictionary
   return recipe
+
+def calc_difficulty(cooking_time, ingredients):
+  num_ingredients = len(ingredients) # Get the number of ingredients
+  if cooking_time < 10 and num_ingredients < 4:
+    return 'Easy'
+  elif cooking_time < 10 and num_ingredients >= 4:
+    return 'Medium'
+  elif cooking_time >= 10 and num_ingredients < 4:
+    return 'Intermediate'
+  else:
+    return 'Hard'
 
