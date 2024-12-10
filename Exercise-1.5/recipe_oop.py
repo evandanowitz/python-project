@@ -28,3 +28,9 @@ class Recipe(object):
   def set_cooking_time(self):
     self.cooking_time = int(input('Enter cooking time (in minutes): '))
 
+  def add_ingredients(self, *ingredients):
+    for ingredient in ingredients:
+      if ingredient not in self.ingredients:
+        self.ingredients.append(ingredient)
+    self.update_all_ingredients()
+
