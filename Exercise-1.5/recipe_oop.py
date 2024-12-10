@@ -71,3 +71,22 @@ def recipe_search(data, search_term):
       # Printing 'recipe' calls the __str()__ method, and the formatted string 'output' I defined is displayed
       print(recipe)
 
+# Longer version going step-by-step
+# tea = Recipe('Tea', [], 0)
+# tea.add_ingredients('Tea Leaves', 'Sugar', 'Water')
+# tea.set_cooking_time(5)
+# print(tea)
+
+# Concise way of just creating the object right away with all parameters
+tea = Recipe('Tea', ['Tea Leaves', 'Sugar', 'Water'], 5)
+print(tea) # When using print() on an object, Python internally searches for the __str__ method of that object's class
+coffee = Recipe('Coffee', ['Coffee Powder', 'Sugar', 'Water'], 5)
+print(coffee)
+cake = Recipe('Cake', ['Sugar', 'Butter', 'Eggs', 'Vanilla Essence', 'Flour', 'Baking Powder', 'Milk'], 50)
+print(cake)
+banana_smoothie = Recipe('Banana Smoothie', ['Bananas', 'Milk', 'Peanut Butter', 'Sugar', 'Ice Cubes'], 5)
+print(banana_smoothie)
+
+recipes_list = [tea, coffee, cake, banana_smoothie]
+# Later, if necessary, can dynamically add recipes to list as they're created (for loop)
+
