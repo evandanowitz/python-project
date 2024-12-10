@@ -6,6 +6,9 @@ class Recipe(object):
     self.cooking_time = cooking_time
     self.difficulty = None # 'difficulty' attribute is auto-generated and initially set to None
 
+  # Class variable. Can be used by any instance of the Recipe class.
+  all_ingredients = []
+
   # Calculates difficulty level and updated self.difficulty attribute accordingly
   def calculate_difficulty(self):
     num_ingredients = len(self.ingredients)
