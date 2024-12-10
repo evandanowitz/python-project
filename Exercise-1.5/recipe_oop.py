@@ -55,3 +55,12 @@ class Recipe(object):
       if ingredient not in Recipe.all_ingredients:
         Recipe.all_ingredients.append(ingredient)
   
+  def __str__(self):
+    output = (
+      f'\nRecipe Name: {self.name}'
+      f'\nCooking Time: {self.cooking_time} minutes'
+      f'\nIngredients: {", ".join(self.ingredients)}'
+      f'\nDifficulty: {self.get_difficulty()}'
+    )
+    return output
+
