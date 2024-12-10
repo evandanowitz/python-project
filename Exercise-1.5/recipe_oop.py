@@ -90,3 +90,6 @@ print(banana_smoothie)
 recipes_list = [tea, coffee, cake, banana_smoothie]
 # Later, if necessary, can dynamically add recipes to list as they're created (for loop)
 
+search_terms = ['Water', 'Sugar', 'Bananas'] # List of ingredients to search for
+for term in search_terms: # Use recipe_search method for each teerm
+  recipe_search(recipes_list, term)
