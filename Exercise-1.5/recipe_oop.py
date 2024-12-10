@@ -45,6 +45,11 @@ class Recipe(object):
       self.calculate_difficulty() # Call the calcualte_difficulty method
     return self.difficulty # Regardless of whether it was just calculated or already existsed, return the difficulty
   
+  def search_ingredient(self, ingredient):
+    if ingredient in self.ingredients: # Checks if the ingredient exists in the list
+      return True # If it exists, True is returned immediately
+    return False # If loop finishes without finding the ingredient, return False
+
   def update_all_ingredients(self):
     for ingredient in self.ingredients:
       if ingredient not in Recipe.all_ingredients:
