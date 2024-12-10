@@ -37,3 +37,8 @@ class Recipe(object):
   def get_ingredients(self):
     return self.ingredients
   
+  def get_difficulty(self):
+    if not self.difficulty: # If difficulty has not been calculated...
+      self.calculate_difficulty() # Call the calcualte_difficulty method
+    return self.difficulty # Regardless of whether it was just calculated or already existsed, return the difficulty
+  
