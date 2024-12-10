@@ -64,3 +64,10 @@ class Recipe(object):
     )
     return output
 
+def recipe_search(data, search_term):
+  print(f'\nSearching for recipes containing "{search_term}"...')
+  for recipe in data:
+    if recipe.search_ingredient(search_term): # Check if the ingredient exists
+      # Printing 'recipe' calls the __str()__ method, and the formatted string 'output' I defined is displayed
+      print(recipe)
+
