@@ -34,3 +34,6 @@ class Recipe(object):
         self.ingredients.append(ingredient)
     self.update_all_ingredients()
 
+  def get_ingredients(self):
+    return self.ingredients
+  
