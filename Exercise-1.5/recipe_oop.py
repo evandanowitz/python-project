@@ -18,3 +18,13 @@ class Recipe(object):
     else:
       self.difficulty = 'Hard'
 
+  def get_name(self):
+    return self.name
+  def set_name(self):
+    self.name = input('Enter recipe name here: ')
+
+  def get_cooking_time(self):
+    return self.cooking_time
+  def set_cooking_time(self):
+    self.cooking_time = int(input('Enter cooking time (in minutes): '))
+
