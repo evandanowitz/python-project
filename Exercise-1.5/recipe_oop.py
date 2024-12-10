@@ -45,3 +45,8 @@ class Recipe(object):
       self.calculate_difficulty() # Call the calcualte_difficulty method
     return self.difficulty # Regardless of whether it was just calculated or already existsed, return the difficulty
   
+  def update_all_ingredients(self):
+    for ingredient in self.ingredients:
+      if ingredient not in Recipe.all_ingredients:
+        Recipe.all_ingredients.append(ingredient)
+  
