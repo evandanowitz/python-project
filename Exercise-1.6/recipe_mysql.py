@@ -26,3 +26,15 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Recipes (
   difficulty VARCHAR(20)
 )''')
 
+def calculate_difficulty(cooking_time, ingredients):
+  num_ingredients = len(ingredients)
+  if cooking_time < 10 and num_ingredients < 4:
+    difficulty = 'Easy'
+  elif cooking_time < 10 and num_ingredients >= 4:
+    difficulty = 'Medium'
+  elif cooking_time >= 10 and num_ingredients < 4:
+    difficulty = 'Intermediate'
+  else:
+    difficulty = 'Hard'
+  return difficulty
+
