@@ -48,3 +48,27 @@ def format_recipe(recipe):
     '----------------------------'
   )
 
+def create_recipe(conn, cursor):
+  name = input('Enter the name of the recipe: ')
+  cooking_time = int(input('Enter the cooking time (in minutes): '))
+  ingredients = []
+  while True:
+    ingredient = input('Enter one ingredient at a time (type "done" when finished): ').strip()
+    if ingredient.lower() == 'done':
+      break
+    ingredients.append(ingredient)
+  difficulty = calculate_difficulty(cooking_time, ingredients)
+
+  ingredients_str = ', '.join(ingredients) # Convert ingredients list to comma-separated string
+
+  # Executes the query (sends the SQL command to the MySQL database to perform the operation)
+  cursor.execute(
+    'INSERT INTO Recipes (name, cooking_time, ingredients, difficulty) VALUES (%s, %s, %s, %s)',
+    (name, cooking_time, ingredients_str, difficulty)
+  )
+  conn.commit() # Commit the changes to the database
+  print(f'\nRecipe "{name}" has been successfully added to the database.')
+
+  # ingredients_input = input('Enter the recipe\'s ingredients (separate each with a comma):')
+  # ingredients = ingredients_input.split(', ')
+
