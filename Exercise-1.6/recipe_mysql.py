@@ -207,3 +207,31 @@ def update_recipe(conn, cursor):
     conn.commit()
     print(f'Recipe difficulty successfully recalculated and updated to "{updated_difficulty}"!')
 
+def delete_recipe(conn, cursor):
+  cursor.execute('SELECT id, name FROM Recipes')
+  all_recipes = cursor.fetchall()
+  
+  print('\nAvailable Recipes:')
+  for recipe in all_recipes:
+    print(f'ID: {recipe[0]}, Name: {recipe[1]}')
+  
+  while True:
+    try:
+      id_to_delete = int(input('Enter the ID of the recipe you want to delete: '))
+      delete_choice = None
+      for recipe in all_recipes:
+        if recipe[0] == id_to_delete:
+          delete_choice = recipe
+          break
+      if delete_choice:
+        print(f'Success! You selected: {delete_choice[1]} for deletion.')
+        delete_query = 'DELETE FROM Recipes WHERE id = %s'
+        cursor.execute(delete_query, (id_to_delete,))
+        conn.commit()
+        print('Recipe successfully deleted!')
+        break # exit loop after successful deletion
+      else:
+        print('The ID you entered is not in the list. Please try again.')
+    except ValueError:
+      print('Input value must be a number. Please try again.')
+
