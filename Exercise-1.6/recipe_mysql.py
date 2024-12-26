@@ -124,3 +124,86 @@ def search_recipe(conn, cursor):
     for recipe in recipe_search_results:
       print(format_recipe(recipe))
 
+def update_recipe(conn, cursor):
+  cursor.execute('SELECT * FROM Recipes') # executes the SQL query to retrieve all rows from the Recipes table
+  all_recipes = cursor.fetchall() # fetches all rows returned by query and stores as a list of tuples in all_recipes
+  
+  print('\nAvailable Recipes:')
+  for recipe in all_recipes: # loops through each tuple (representing a recipe) in the all_recipes list
+    print(f'ID: {recipe[0]}, {recipe[1]}') # display ID and Name details of each recipe for cleaner output
+
+  while True:
+    try:
+      id_choice = int(input('Enter the ID of the recipe you want to update: ')) # prompt user for a recipe ID
+      recipe_selection = None # initialize a variable to store the selected recipe
+      for recipe in all_recipes: # loop through the recipes to find a match
+        if recipe[0] == id_choice: # match by ID (recipe[0] is the ID)
+          recipe_selection = recipe
+          break
+      if recipe_selection:
+        print(f'Success! You selected: {recipe_selection[1]}')
+        break
+      else:
+        print('The ID you entered is not in the list. Please try again.')
+    except ValueError:
+      print('Input value must be a number. Please try again.')
+
+  # this dictionary ensures the input from the user (like 'Name') maps to the database column 'name'
+  # if columns are ever renamed, can easily udpate this dictionary without rewriting the query logic
+  valid_columns = {
+    'name': 'name',
+    'cooking time': 'cooking_time',
+    'ingredients': 'ingredients'
+  }
+
+  while True:
+    column_choice = input('Enter the section you want to update (e.g., "Name", "Cooking Time", "Ingredients"): ').strip().lower()
+    if column_choice in valid_columns:
+      break
+    else:
+      print('Invalid choice. Please select "Name", "Cooking Time", or "Ingredients".')
+  
+  updated_value = None # initialize updated_value for reuse
+
+  if column_choice == 'name':
+    updated_value = input('Enter the new name for the recipe: ').strip()
+    # check if the input is empty for "name"
+    if not updated_value:
+      print('Updated value cannot be empty. Please try again.')
+      return
+  
+  elif column_choice == 'cooking time':
+    while True:
+      try:
+        updated_value = int(input('Enter the new cooking time (in minutes): '))
+        break
+      except ValueError:
+        print('Cooking time must be a valid number. Please try again.')
+    
+  elif column_choice == 'ingredients':
+    updated_value = input('Enter the updated ingredients(separate with commas): ').strip()
+    # check if the input is empty for "ingredients"
+    if not updated_value:
+      print('Updated value cannot be empty. Please try again.')
+      return
+
+  # update the chosen column in the database
+  update_query = f'UPDATE Recipes SET {valid_columns[column_choice]} = %s WHERE id = %s'
+  cursor.execute(update_query, (updated_value, id_choice))
+  conn.commit()
+  print(f'{column_choice.capitalize()} successfully updated!')
+
+  # recalculate and update difficulty if cooking_time or ingredients are updated
+  if column_choice in ['cooking time', 'ingredients']:
+    # extract updated values for recalculation
+    new_cooking_time = updated_value if column_choice == 'cooking time' else recipe_selection[3]
+    new_ingredients = updated_value.split(', ') if column_choice == 'ingredients' else recipe_selection[2].split(', ')
+
+    # recalculate difficulty
+    updated_difficulty = calculate_difficulty(new_cooking_time, new_ingredients)
+
+    # update difficulty in the database
+    cursor.execute('UPDATE Recipes SET difficulty = %s WHERE id = %s', (updated_difficulty, id_choice))
+    conn.commit()
+    print(f'Recipe difficulty successfully recalculated and updated to "{updated_difficulty}"!')
+
