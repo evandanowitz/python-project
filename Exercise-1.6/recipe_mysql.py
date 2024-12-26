@@ -72,3 +72,55 @@ def create_recipe(conn, cursor):
   # ingredients_input = input('Enter the recipe\'s ingredients (separate each with a comma):')
   # ingredients = ingredients_input.split(', ')
 
+def search_recipe(conn, cursor):
+  cursor.execute('SELECT ingredients FROM Recipes') # fetches ingredients column from Recipes table in database
+  results = cursor.fetchall() # retrieves all the rows into results as a list of tuples
+  all_ingredients = [] # ensures you start with an empty list to store unique ingredients
+  
+  for row in results: # iterates through each row
+    ingredients_list = row[0].split(', ') # splits the ingredient strings into individual items
+    for ingredient in ingredients_list: # iterate over each item in ingredients_list
+      ingredient = ingredient.lower() # convert all ingredients to lowercase before adding them
+      if ingredient not in all_ingredients: # ensures there are no duplicate ingredients
+        all_ingredients.append(ingredient) # if no duplicate, append the unique ingredient to all_ingredients list
+
+  sorted_all_ingredients = sorted(all_ingredients)
+
+  print('\nAvailable Ingredients:')  
+  
+  if not sorted_all_ingredients: # check if the list is empty
+    print('The list of ingredients is currently empty.')
+    return # exit the function
+
+  for index, ingredient in enumerate(sorted_all_ingredients): # enumerate() returns both an index and value of each item
+    print(f'{index + 1}. {ingredient}') # Example would look like: "3. Pizza"
+
+  while True: # use a while loop to retry the check until valid input is entered
+    try:
+      choice = int(input('\nEnter the number corresponding to the ingredient you want to search for: '))
+      if 1 <= choice <= len(sorted_all_ingredients): # reads like "if 1 is <= choice and choice is <= the length of the list"
+        search_ingredient = sorted_all_ingredients[choice - 1] # value entered by user is 1-based. List indices in Python are 0-based
+        print(f'You selected: "{search_ingredient}"')
+        break # break exits the loop as opposed to a return statement that exits the function
+      else:
+        print('The number you entered is not in the list. Please try again.')
+    except ValueError: # if there is a ValueError, the loop catches it, prints the error, and re-prompts the user
+      print('Input value must be a number. Please try again.')
+
+  # to search for substring in a column using SQL, use LIKE operator with wildcards(%). Matches any seq of characters
+    # LIKE is an SQL operator used for pattern matching. % is a wildcard for zero or more characters
+    # Example: WHERE name LIKE '%cake%' matches any name containing "cake"
+  # query format: SELECT <columns to be displayed> FROM <table> WHERE <search column> LIKE <search pattern>
+  # second arg must be a tuple. Adding a comma makes it a single-element tuple. Without the comma, Python will treat it as a string, causing an error.
+  search_query = 'SELECT * FROM Recipes WHERE ingredients LIKE %s' # search_query contains the SQL query as a string
+  cursor.execute(search_query, (f'%{search_ingredient}%',)) # passing search_query to cursor.execute() for execution. the second argument in this line provides the value for %s placeholder
+  recipe_search_results = cursor.fetchall()
+
+  if recipe_search_results:
+    print(f'\nRecipes containing "{search_ingredient}":')
+    # recipe_search_results is a list of tuples, where each tuple represents a row returned by the query.
+    # Each tuple contains values for the columns of the Recipes table.
+    # recipe is the placeholder variable representing each individual tuple (or row) as you iterate through recipe_search_results
+    for recipe in recipe_search_results:
+      print(format_recipe(recipe))
+
