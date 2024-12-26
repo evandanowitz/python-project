@@ -9,3 +9,6 @@ conn = mysql.connector.connect(
   passwd = 'password'
 )
 
+# Initialize a cursor object from conn
+cursor = conn.cursor()
+
