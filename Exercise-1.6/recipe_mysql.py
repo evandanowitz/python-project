@@ -38,3 +38,13 @@ def calculate_difficulty(cooking_time, ingredients):
     difficulty = 'Hard'
   return difficulty
 
+def format_recipe(recipe):
+  return (
+    f'\nID: {recipe[0]}\n'
+    f'Name: {recipe[1]}\n'
+    f'Ingredients: {recipe[2]}\n'
+    f'Cooking Time: {recipe[3]} minutes\n'
+    f'Difficulty: {recipe[4]}\n'
+    '----------------------------'
+  )
+
