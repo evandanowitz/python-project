@@ -235,3 +235,36 @@ def delete_recipe(conn, cursor):
     except ValueError:
       print('Input value must be a number. Please try again.')
 
+def main_menu(conn, cursor):
+  choice = '' # Initialize choice as an empty string before the loop
+  while(choice != 'quit'):
+    print('Main Menu\n----------------------------------------')
+    print('Please choose from the following options:')
+    print('1. Create a new recipe')
+    print('2. Search for a recipe by ingredient')
+    print('3. Update an existing recipe')
+    print('4. Delete a recipe\n')
+    print('Type "quit" to exit the program.\n')
+    
+    choice = input('Enter the number of your choice (e.g., 1): ').strip().lower() # Update choice variable inside loop with selected choice
+
+    if choice == '1':
+      create_recipe(conn, cursor)
+    elif choice == '2':
+      search_recipe(conn, cursor)
+    elif choice == '3':
+      update_recipe(conn, cursor)
+    elif choice == '4':
+      delete_recipe(conn, cursor)
+    elif choice == 'quit':
+      # Commit and close connection before exiting
+      print('Saving changes and closing connection...')
+      conn.commit() # Ensure all changes are saved to the database
+      conn.close() # Close the database connection
+      print('Goodbye!')
+      break
+    else:
+      print('Invalid choice. Please type "1", "2", "3", "4" or "quit" to proceed.')
+
+    print('\n') # Additional new line to separate menu iterations
+
