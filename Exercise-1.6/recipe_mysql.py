@@ -268,3 +268,4 @@ def main_menu(conn, cursor):
 
     print('\n') # Additional new line to separate menu iterations
 
+main_menu(conn, cursor) # Ensures script starts running the menu loop when executed. Will execute when script runs.
