@@ -121,3 +121,19 @@ def create_recipe():
 
   print(f'\nRecipe "{name}" has been successfully added to the database.')
 
+# Function 2
+def view_all_recipes():
+  all_recipes = session.query(Recipe).all() # database query for all recipes
+  if not all_recipes: # check to handle case when no recipes exist
+    print('Recipes list is empty. Returning to Main Menu.')
+    return None # exits the function
+  else:
+    print('\nEnjoy your ingredients list.')
+    print('-' * 40)
+    for index, recipe in enumerate(all_recipes, start=1): # use enumerate function to add numbers
+      print(f'{index}.')
+      print(recipe) # 'recipe' here in the print statement triggers the __str__ method of the Recipe class
+      if index != len(all_recipes): # if the index of the recipe is not the last in the all_recipes list...
+        print() # print a blank line for spacing
+    print('-' * 40)
+
