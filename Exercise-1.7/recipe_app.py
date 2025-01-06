@@ -12,3 +12,7 @@ engine = create_engine("mysql+pymysql://cf-python:password@localhost/task_databa
 # store the declarative base class in 'Base'
 Base = declarative_base()
 
+# create session object that will be used to make changes to the database
+Session = sessionmaker(bind=engine) # generate the Session class and bind it to the engine object
+session = Session() # initialize the session object
+
