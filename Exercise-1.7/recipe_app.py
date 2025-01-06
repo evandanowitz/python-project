@@ -360,3 +360,5 @@ def main_menu():
 
     print('\n') # additional new line to separate menu iterations
 
+# create the table on the database
+Base.metadata.create_all(engine)
