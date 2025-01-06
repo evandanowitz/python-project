@@ -9,3 +9,6 @@ from sqlalchemy.orm import sessionmaker
 # username: 'cf-python', password: 'password', hostname: 'localhost', database name: 'task_datbase'
 engine = create_engine("mysql+pymysql://cf-python:password@localhost/task_database")
 
+# store the declarative base class in 'Base'
+Base = declarative_base()
+
