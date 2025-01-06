@@ -279,3 +279,50 @@ def edit_recipe():
       print(f'\nAn error occurred: {e}')
       return None
 
+# Function 5
+def delete_recipe():
+  recipes = session.query(Recipe).all()
+
+  if not recipes:
+    print('\nNo recipes found. Returning to Main Menu.')
+    return None
+
+  results = session.query(Recipe).with_entities(Recipe.id, Recipe.name).all()
+  print('\nAvailable Recipes:')
+  for id, name in results: # unpack the tuple since each item in results is a tuple with multiple items (id and name)
+    print(f'  {id}. {name}')
+    
+  valid_ids = [id for id, name in results]
+  
+  try:
+    user_input = input('\nEnter the ID number of the recipe you want to delete: ')
+    recipe_id = int(user_input)
+
+    if recipe_id not in valid_ids:
+      print('\nPlease enter a valid ID number from the list.')
+      return None
+
+    recipe_to_delete = session.query(Recipe).filter_by(id=recipe_id).first()
+    print(f'\nYou have chosen to delete the recipe "{recipe_to_delete.name}"')
+
+    while True:
+      user_confirmation = input(f'\nAre you sure you want to delete "{recipe_to_delete.name}"? Type "Yes" or "No": ').lower()
+      if user_confirmation == 'yes':
+        try:
+          session.delete(recipe_to_delete)
+          session.commit()
+          print('\nRecipe deleted successfully!')
+          break # exit the loop after successful deletion
+        except Exception as e:
+          print(f'\nAn error occurred: {e}')
+          return None
+      elif user_confirmation == 'no':
+        print('\nDeletion cancelled. Returning to Main Menu.')
+        return None
+      else:
+        print('\nInvalid input. Please type "Yes" or "No".')
+
+  except Exception as e:
+    print(f'\nAn error occurred: {e}')
+    return None
+
