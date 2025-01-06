@@ -52,3 +52,10 @@ class Recipe(Base): # Recipe class inherits the Base class created previously
     else:
       self.difficulty = 'Hard'
 
+  def return_ingredients_as_list(self):
+    if self.ingredients == '': # if ingredients string is empty...
+      print('Ingredients list is empty. Here is an empty list.')
+      return [] # return an empty list
+    else:
+      return self.ingredients.split(', ') # split string into list with ', '
+
