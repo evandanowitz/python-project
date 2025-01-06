@@ -199,3 +199,83 @@ def search_by_ingredient():
     for recipe in recipes_matching_conditions:
       print(recipe) # calls the __str__ method of the Recipe class for a clean formatted display of the recipe(s)
 
+# Function 4
+def edit_recipe():
+  recipes = session.query(Recipe).all()
+  if not recipes:
+    print('No recipes found. Returning to Main Menu.')
+    return None
+  else:
+    results = session.query(Recipe).with_entities(Recipe.id, Recipe.name).all()
+    print('\nAvailable Recipes:')
+    for id, name in results: # unpack the tuple since each item in results is a tuple with multiple items (id and name)
+      print(f'  {id}. {name}')
+
+    # extract valid IDs from 'results'
+    valid_ids = []
+    for id, name in results:
+      valid_ids.append(id) # add each recipe ID to the valid IDs list
+
+    try:
+      user_input = input('\nEnter the ID number of the Recipe you want to edit: ') # prompt user for input
+      recipe_id = int(user_input) # convert user input to an integer
+
+      if recipe_id not in valid_ids: # check if the ID is valid
+        print('Please enter a valid ID number from the list.')
+        return None
+      else:
+        recipe_to_edit = session.query(Recipe).filter_by(id=recipe_id).first() # fetch the recipe from the database by its ID
+        print(f'\nYou have chosen to edit the recipe: {recipe_to_edit.name}')
+        print(f'  1. Name: {recipe_to_edit.name}')
+        print(f'  2. Cooking Time: {recipe_to_edit.cooking_time} minutes')
+        print(f'  3. Ingredients: {recipe_to_edit.ingredients}')
+        while True:
+          update_choice_input = input('\nEnter the number of category you want to update: ')
+          try:
+            category_to_update = int(update_choice_input) # convert input to an integer in the try block
+            if category_to_update == 1:
+              print('\nYou selected the "Name" category.')
+              break # exit the loop if input is valid
+            elif category_to_update == 2:
+              print('\nYou selected the "Cooking Time" category.')
+              break
+            elif category_to_update == 3:
+              print('\nYou selected the "Ingredients" category.')
+              break
+            else: # handle out-of-range input
+              print('\nPlease enter a number between 1 and 3.')
+          except Exception as e:
+            print(f'\nAn error occurred: {e}')
+            return None
+
+        # after the use selects an attribute (category) and breaks the loop
+        if category_to_update == 1:
+          new_name = input('\nEnter the new name: ')
+          recipe_to_edit.name = new_name
+        elif category_to_update == 2:
+          try:
+            new_cooking_time = int(input('\nEnter the new cooking time (in minutes): '))
+            recipe_to_edit.cooking_time = new_cooking_time
+          except Exception as e:
+            print(f'\nAn error occurred: {e}')
+            return None
+        elif category_to_update == 3:
+          new_ingredients = input('\nEnter the new ingredient(s), separated by commas: ')
+          recipe_to_edit.ingredients = new_ingredients
+        else:
+          print('\nThere was an error. Please try again.')
+
+        # recalculate recipe difficulty after making the update
+        recipe_to_edit.calculate_difficulty()
+
+        # commit the updates to the database
+        try:
+          session.commit()
+          print('\nRecipe updated successfully!')
+        except Exception as e:
+          print(f'\nAn error occurred: {e}')
+
+    except Exception as e: # handle invalid input (e.g., non-integer values)
+      print(f'\nAn error occurred: {e}')
+      return None
+
