@@ -40,3 +40,15 @@ class Recipe(Base): # Recipe class inherits the Base class created previously
       f'Difficulty:\t{self.difficulty}'
     )
   
+  # difficulty level is assigned to instance variable self.difficulty
+  def calculate_difficulty(self):
+    num_ingredients = len(self.return_ingredients_as_list())
+    if self.cooking_time < 10 and num_ingredients < 4:
+      self.difficulty = 'Easy'
+    elif self.cooking_time < 10 and num_ingredients >= 4:
+      self.difficulty = 'Medium'
+    elif self.cooking_time >= 10 and num_ingredients < 4:
+      self.difficulty = 'Intermediate'
+    else:
+      self.difficulty = 'Hard'
+
