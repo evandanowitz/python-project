@@ -326,3 +326,37 @@ def delete_recipe():
     print(f'\nAn error occurred: {e}')
     return None
 
+def main_menu():
+  user_choice = ''
+  while user_choice != 'quit':
+    print('--------------- Main Menu ---------------\n')
+    print('Choose from the following options:')
+    print('  1. Create a new recipe')
+    print('  2. View all recipes')
+    print('  3. Search for recipes by ingredients')
+    print('  4. Edit an existing recipe')
+    print('  5. Delete an existing recipe\n')
+    print('Type "quit" to exit the application.\n')
+
+    user_choice = input('Enter the number of your choice (e.g., 1): ').strip()
+
+    if user_choice == '1':
+      create_recipe()
+    elif user_choice == '2':
+      view_all_recipes()
+    elif user_choice == '3':
+      search_by_ingredient()
+    elif user_choice == '4':
+      edit_recipe()
+    elif user_choice == '5':
+      delete_recipe()
+    elif user_choice.lower() == 'quit':
+      print('Saving changes and closing connection...') # close connection before exiting
+      session.close() # close the database connection. commits are handled in the functions
+      print('Goodbye!')
+      break
+    else:
+      print('\nInvalid choice. Please type "1", "2", "3", "4", "5" or "quit" to proceed.')
+
+    print('\n') # additional new line to separate menu iterations
+
