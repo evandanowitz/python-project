@@ -30,3 +30,13 @@ class Recipe(Base): # Recipe class inherits the Base class created previously
   def __repr__(self):
     return f'Recipe ID: {self.id} - {self.name}'
 
+  # responsible for the formatted output you see when running view_all_recipes()
+  def __str__(self):
+    ingredients_list = self.return_ingredients_as_list() # convert to list
+    return (
+      f'Recipe Name:\t{self.name or "N/A"}\n'
+      f'Cooking Time:\t{self.cooking_time} minutes\n'
+      f'Ingredients:\t{", ".join(ingredients_list) if ingredients_list else "N/A"}\n'
+      f'Difficulty:\t{self.difficulty}'
+    )
+  
