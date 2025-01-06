@@ -137,3 +137,65 @@ def view_all_recipes():
         print() # print a blank line for spacing
     print('-' * 40)
 
+# Function 3
+def search_by_ingredient():
+  if session.query(Recipe).count() == 0: # check if there are any recipes
+    print('No recipes found. Returning to Main Menu.')
+    return None # exits the function
+  
+  results = session.query(Recipe.ingredients).all() # retrieve only the values from the ingredients column
+
+  # compile all unique ingredients
+  all_ingredients = set() # set() automatically ensures no duplicates and eliminates need for a manual check
+  for ing_row in results:
+    ingredients = ing_row[0].split(', ') # extract and split ingredients string into a list
+    all_ingredients.update(ingredients) # add ingredients to the set
+  
+  # display list of unique ingredients
+  print('Available Ingredients:')
+  for index, ingredient in enumerate(sorted(all_ingredients), start=1): # sort for readability
+    print(f'{index}. {ingredient}')
+  
+  while True:
+    try:
+      user_input = input('\nEnter the number(s) of the ingredient(s) you want to search for, separated by spaces: ') # prompt user for input
+      num_choices = []
+      for num in user_input.split():
+        num_choices.append(int(num))
+
+      valid = True
+      for num in num_choices:
+        if not (1 <= num <= len(all_ingredients)):
+          valid = False
+          break
+      
+      if valid: # map the numbers to ingredients
+        sorted_ingredients = sorted(all_ingredients) # sort for consistent order
+        search_ingredients = [] # list of ingredients to be searched for (contains these ingredients as strings)
+        for num in num_choices:
+          search_ingredients.append(sorted_ingredients[num - 1])
+        
+        print(f'You selected: {", ".join(search_ingredients)}')
+        
+        conditions = [] # initialize empty list that will contain like() (search) conditions for search ingredient
+        
+        for ingredient in search_ingredients:
+          like_term = f'%{ingredient}%' # surround ingredient with wildcards (%)
+          conditions.append(Recipe.ingredients.like(like_term)) # add the condition to the list
+        break # exits the loop after successful input
+      else:
+        print(f'Error: Please enter numbers between 1 and {len(all_ingredients)}.')
+    except Exception as e:
+      print(f'An error occurred: {e}')
+      return None
+
+  # query database with all conditions from the 'conditions' list
+  recipes_matching_conditions = session.query(Recipe).filter(* conditions).all()
+  if not recipes_matching_conditions: # check if any recipes match the conditions
+    print('No recipes found matching the selected ingredients. Please try again.')
+    return None # ensures the function exits immediately
+  else:
+    print('\nRecipes matching your search:')
+    for recipe in recipes_matching_conditions:
+      print(recipe) # calls the __str__ method of the Recipe class for a clean formatted display of the recipe(s)
+
