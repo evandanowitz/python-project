@@ -26,3 +26,7 @@ class Recipe(Base): # Recipe class inherits the Base class created previously
   cooking_time = Column(Integer)
   difficulty = Column(String(20))
 
+  # quick representation of recipe. used for debugging and dev-friendly representation of object, typically when you print object directly
+  def __repr__(self):
+    return f'Recipe ID: {self.id} - {self.name}'
+
