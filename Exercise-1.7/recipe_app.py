@@ -362,3 +362,5 @@ def main_menu():
 
 # create the table on the database
 Base.metadata.create_all(engine)
+
+main_menu() # ensures script starts running the menu loop when executed. Will execute when script runs.
