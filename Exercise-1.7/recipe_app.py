@@ -16,3 +16,13 @@ Base = declarative_base()
 Session = sessionmaker(bind=engine) # generate the Session class and bind it to the engine object
 session = Session() # initialize the session object
 
+# define Recipe model inheriting from Base
+class Recipe(Base): # Recipe class inherits the Base class created previously
+  __tablename__ = 'final_recipes' # define an attribute to set the table's name as 'final_recipes'
+  # define the following attributes to create columns in your table
+  id = Column(Integer, primary_key=True, autoincrement=True)
+  name = Column(String(50))
+  ingredients = Column(String(255))
+  cooking_time = Column(Integer)
+  difficulty = Column(String(20))
+
